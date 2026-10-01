@@ -7,6 +7,7 @@
 if (!require(pacman)) install.packages("pacman")
 p_load(tidyverse)
 
+install.packages("rstudiothemes")
 
 # ============================================================
 # 1. REPRODUCIBILITY: SET.SEED() ----
@@ -25,6 +26,8 @@ a <- rnorm(5)
 set.seed(1234)
 b <- rnorm(5)
 identical(a, b)
+a
+b
 
 # in practice, set.seed() is usually called once, at the very top of a
 # script, rather than before every draw
@@ -74,13 +77,15 @@ chamber_votes <- tibble(
   cdf       = pbinom(yes_votes, size = 100, prob = 0.5)
 )
 
+plot(chamber_votes$cdf)
+
 # a small, hand-checkable case -- two legislators, size = 2
 dbinom(x = c(0, 1, 2), size = 2, prob = 0.5) # exactly 0, 1, 2 yes votes
 pbinom(q = 1, size = 2, prob = 0.5)          # 0 or 1 yes votes
 1 - pbinom(q = 1, size = 2, prob = 0.5)      # more than 1 yes vote
-pbinom(q = 1, size = 2, prob = 0.5, lower.tail = FALSE) # same, lower.tail
-qbinom(p = 0.75, size = 2, prob = 0.5) # smallest k with P(K<=k) >= .75
-rbinom(n = 5, size = 2, prob = 0.5)    # 5 simulated two-legislator outcomes
+pbinom(q = 1, size = 2, prob = 0.5, lower.tail = FALSE) # same, lower.tail -> how likely is 
+qbinom(p = 0.75, size = 2, prob = 0.5) # smallest k with P(K<=k) >= .75 -> 
+rbinom(n = 5, size = 3, prob = 1/6)    # 5 simulated two-legislator outcomes
 
 
 # ============================================================
@@ -88,7 +93,7 @@ rbinom(n = 5, size = 2, prob = 0.5)    # 5 simulated two-legislator outcomes
 # ============================================================
 # 120 delegates invited, 85% show-up chance each, venue seats 100
 
-1 - pbinom(q = 100, size = 120, prob = 0.85)
+pbinom(q = 100, size = 120, prob = 0.85)
 
 summit_cdf <- tibble(
   attendees = 0:120,
@@ -102,7 +107,7 @@ summit_cdf |>
     title = "CDF of attendance (n = 120 invited, p = 0.85)",
     x = "Delegates showing up", y = "Probability"
   ) +
-  theme_intror()
+  theme_minimal()
 
 
 # ============================================================
@@ -115,7 +120,7 @@ tibble(x = seq(-4, 4, by = 0.01), density = dnorm(x)) |>
   ggplot(aes(x = x, y = density)) +
   geom_line() +
   labs(title = "PDF of the standard Normal N(0, 1)", x = "x", y = "f(x)") +
-  theme_intror()
+  theme_minimal()
 
 # q(0.975): which x has 97.5% of the mass below it? worth deriving and
 # storing rather than memorizing "1.96"
@@ -146,7 +151,7 @@ normal_curve |>
   ggplot(aes(x = x, y = pdf_shifted)) +
   geom_line() +
   labs(title = "PDF of N(3, 4)", x = "x", y = "f(x)") +
-  theme_intror()
+  theme_minimal()
 
 # ============================================================
 # 6. CENTRAL LIMIT THEOREM ----
@@ -226,10 +231,10 @@ travel_distances <- rgamma(population_size, shape = 1.1, scale = 2000)
 
 tibble(distance_km = travel_distances) |>
   ggplot(aes(x = distance_km)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = course_primary, alpha = 0.4, color = NA) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "blue", alpha = 0.4, color = NA) +
   geom_density(linewidth = 0.8) +
   labs(title = "Population distribution of travel distance", x = "Distance traveled (km)", y = "Density") +
-  theme_intror()
+  theme_minimal()
 # clearly right-skewed, nothing like a Normal
 
 sample_size <- 100
@@ -327,7 +332,7 @@ series_b <- rnorm(1000, mean = 120, sd = 40)
 
 mean_a <- mean(series_a)
 sd_a   <- sd(series_a)
-conf_a_attendance <- 90
+conf_a_attendance <- 50
 
 z_a <- (conf_a_attendance - mean_a) / sd_a
 z_a
@@ -359,13 +364,13 @@ standardize_curves
 standardize_curves |>
   ggplot(aes(x = x, y = density)) +
   geom_line() +
-  geom_vline(aes(xintercept = attendance), color = course_primary, linetype = "dashed") +
+  geom_vline(aes(xintercept = attendance), color = "blue", linetype = "dashed") +
   facet_wrap(~conference, scales = "free", labeller = label_both) +
   labs(
     title = "Each conference vs. its own series",
     x = "Attendance (delegates)", y = "Density"
   ) +
-  theme_intror()
+  theme_minimal()
 
 
 # ============================================================
