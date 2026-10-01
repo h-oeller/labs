@@ -70,11 +70,6 @@ se_share
 ci_analytical <- mean_share + qnorm(c(0.025, 0.975)) * se_share
 ci_analytical
 
-afd_polls
-
-ggplot(afd_polls, aes(share)) +
-  geom_histogram()
-
 # 2. a 95% CI: ~95% of intervals from repeated samples contain the truth --
 # demonstrated on an invented population with a known true mean
 true_mean <- 21
@@ -251,7 +246,6 @@ gerda_regions |> count(region)
 gerda_regions |>
   ggplot(aes(x = region, y = afd_pct, fill = region)) +
   geom_boxplot() +
-  facet_grid(~state) +
   labs(
     title = "AfD vote share by county: East vs. West (2025)",
     x     = NULL,
