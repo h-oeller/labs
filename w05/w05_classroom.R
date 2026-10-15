@@ -16,6 +16,8 @@ p_load(tidyverse, broom, modelsummary, ggdag, dagitty)
 # beta_j_hat: average change in Y for a one-unit increase in X_j,
 #             holding all other predictors constant (statistical control)
 
+getwd()
+setwd("/Users/DATA/_GIT/labs")
 
 # ============================================================
 # 2. DATA: GERMAN ELECTION RESULTS (2025) ----
