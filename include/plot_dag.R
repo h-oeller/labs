@@ -84,10 +84,12 @@ plot_dag <- function(dag, labels = NULL) {
       fill      = "white",
       linewidth = 0,
       size      = 3.6,
-      nudge_y   = -0.4
+      vjust     = 2.4
     ) +
     scale_y_reverse(expand = expansion(mult = 0.15)) +
     scale_x_continuous(expand = expansion(mult = 0.15)) +
+    # nodes and labels have a fixed size, so they may reach past the panel on short plots
+    coord_cartesian(clip = "off") +
     scale_fill_manual(
       limits = status_limits,
       values = c(
@@ -128,8 +130,10 @@ plot_dag <- function(dag, labels = NULL) {
     ) +
     theme_dag(base_size = 12) +
     theme(
-      legend.position = "bottom",
-      legend.box      = "vertical"
+      legend.position    = "bottom",
+      legend.box         = "vertical",
+      legend.box.spacing = unit(12, "mm"),
+      plot.margin        = margin(6, 6, 0, 6, unit = "mm")
     )
 }
 
