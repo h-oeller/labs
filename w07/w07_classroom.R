@@ -5,9 +5,10 @@
 # Setup
 
 if (!require(pacman)) install.packages("pacman")
-p_load(tidyverse, broom, marginaleffects, infer, ggdag, dagitty, patchwork)
+p_load(tidyverse, broom, marginaleffects, infer, ggdag, dagitty, patchwork, gerda)
 set.seed(707)
 
+gerda_data_list(print_table = TRUE)
 
 # ============================================================
 # 1. DATA: ELECTION RESULTS AND COUNTY STRUCTURE ----
